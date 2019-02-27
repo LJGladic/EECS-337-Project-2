@@ -30,4 +30,4 @@ while True:
     else:
         print('Input not valid, please try again.')
 
-requested_recipe = requests.get(requested_recipe_webpage)
+# requested_recipe has the content from the website
