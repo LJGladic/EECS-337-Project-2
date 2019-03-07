@@ -3,10 +3,14 @@
 
 import requests
 from ingredients import parse_ingredients
+from tools import find_tools
 from bs4 import BeautifulSoup
 
 cooking_terms = ["bake", "sautee", "grill", "fry", ]
-measurement_terms = ["cup", "tablespoon", "teaspoon", "can", "cups", "ounce"]
+measurement_terms = ['cup', 'cups', 'gram', 'grams', 'kilogram', 'kilograms', 'liter', 'liters', 'pound', 'pounds', 'clove', 'cloves', 'milliliter', 'milliliters', 'ounce', 'ounces',
+                    'pint', 'pints', 'teaspoon', 'teaspoons', 'tablespoon', 'tablespoons', 'pinch', 'pinches']
+
+
 
 while True:
     requested_recipe_webpage = ''
@@ -65,30 +69,49 @@ for d in directions:
 # div summary background  for title and short description
 
 parsed_ingredients = parse_ingredients(ingredients_lst)
+print("INGREDIENTS")
+print(ingredients_lst)
 # dictionary of ingredient names as key, value = [quantity, measurement, descriptor, prep]
 # ingredients_dict = {}
 # ingredients_dict["ingredient"] = []
 
 # weird terms,  "to taste", "pinch"
 
+#print("SEPARATE")
+#separate_directions = []
+#for dir in directions_lst:
+#    dir = dir.replace("\n", " ")
+#    tokens = dir.split(' ')
+#    separate_directions.append(tokens)
+#print(separate_directions)
 
-stepbystep = []
-for dir in directions_lst:
-    dir = dir.replace("\n", " ")
-    tokens = dir.split('. ')
-    stepbystep.extend(tokens)
-print(stepbystep)
+all_tools = find_tools(directions_lst, ingredients_lst)
+print(all_tools)
 
-keyingredients = []
-for dir in stepbystep:
-    for i in parsed_ingredients:
-        token = i.split(" ")
-        temp = []
-        for t in token:
-            if t in dir:
-                temp.append(t)
-        keyingredients.extend(temp)
-print(keyingredients)
+
+#stepbystep = []
+#print("DIRECTIONS LIST:")
+#print(directions_lst)
+#print("STEP BY STEP")
+#for dir in directions_lst:
+#    dir = dir.replace("\n", " ")
+#    tokens = dir.split('. ')
+#    stepbystep.extend(tokens)
+#print(stepbystep)
+
+
+
+
+#keyingredients = []
+#for dir in stepbystep:
+#    for i in parsed_ingredients:
+#        token = i.split(" ")
+#        temp = []
+#        for t in token:
+#            if t in dir:
+#                temp.append(t)
+#        keyingredients.extend(temp)
+#print(keyingredients)
 
 # dictionary of ingredient names as key, value = [quantity, measurement, descriptor, prep]
 # ingredients_dict = {}
