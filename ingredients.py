@@ -2,7 +2,7 @@ import numpy as np
 import re
 import nltk
 
-# good testers 7000
+# good testers 7000, 139236,14140(compound fraction)
 # problems temp of water and decimals
 # remove anything with parentheses around it
 
@@ -92,7 +92,9 @@ descriptors_list = [
 
 stop_words = [
     'junk',
-    "(optional)"
+    "(optional)",
+    ", or to taste"
+
 ]
 
 
@@ -100,6 +102,8 @@ stop_words = [
 
 
 # potentially remove anything after or
+# add anything after a comma to descriptors
+# figure out what to do about salt and pepper to taste 14140
 def parse_ingredients(ingredients):
     ingredients_list = []
 
@@ -116,15 +120,15 @@ def parse_ingredients(ingredients):
             if d != None:
                 descriptors.append(d)
                 i = i.replace(d, '')
-        tokens = [t.lower() for t in i.split() if i.lower().replace('\(', '') not in stop_words]
-        # find quantity
-        print(tokens)
-        quantity = re.search("(-?(\d+)\s?((.\d+)?))", i)
-        if quantity != None:
-            quantity = str(quantity.group().strip())
-            tokens.remove(quantity)
-            # print (quantity)
 
+        quantity = re.search("(-?(\d+)\s?((.\d+)?))+", i)
+        if quantity != None:
+            print(quantity)
+            quantity = str(quantity.group().strip())
+            print(quantity)
+            i = i.replace(quantity, '')
+            # print (quantity)
+        tokens = [t.lower() for t in i.split() if i.lower().replace('\(', '') not in stop_words]
         for t in tokens:
             # finding measurement
             if t in my_unit_list:
