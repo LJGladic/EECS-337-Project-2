@@ -2,6 +2,7 @@
 # Written by Andrew Bosset, Lukas J. Gladic, Julie Kim and Joshua Koo
 
 import requests
+from ingredients import parse_ingredients
 from bs4 import BeautifulSoup
 
 cooking_terms = ["bake", "sautee", "grill", "fry", ]
@@ -54,32 +55,22 @@ ingredients = soup.find_all("span", class_="recipe-ingred_txt added")
 ingredients_lst = []
 for i in ingredients:
     ingredients_lst.append(i.text)
-    print(i.text)
+    # print(i.text)
 
 directions = soup.find_all("span", class_="recipe-directions__list--item")
 directions_lst = []
 for d in directions:
     directions_lst.append(d.text)
-    print (d.text)
+    # print (d.text)
 # div summary background  for title and short description
 
-parsed_ingredients = []
-for i in ingredients_lst:
-    ingredient = []
-    tokens = i.split(' ')
-    for t in tokens:
-        if any(char.isdigit() for char in t):
-            pass
-        elif any(word in t for word in measurement_terms):
-            pass
-        elif ',' in t:
-            t = t.replace(",","")
-            ingredient.append(t)
-            break
-        else:
-            ingredient.append(t)
-    parsed_ingredients.append(' '.join(ingredient))
-print(parsed_ingredients)
+parsed_ingredients = parse_ingredients(ingredients_lst)
+# dictionary of ingredient names as key, value = [quantity, measurement, descriptor, prep]
+# ingredients_dict = {}
+# ingredients_dict["ingredient"] = []
+
+# weird terms,  "to taste", "pinch"
+
 
 stepbystep = []
 for dir in directions_lst:

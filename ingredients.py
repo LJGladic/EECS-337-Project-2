@@ -1,4 +1,6 @@
 import numpy as np
+import re
+import nltk
 
 my_unit_list = [
     "teaspoon",
@@ -69,14 +71,67 @@ my_unit_list = [
     'mm'
 ]
 
-descriptors_list = [
+preparations_list = [
     'drained',
     'chopped',
+]
 
+descriptors_list = [
 
 ]
 
-my_unit_set = set(my_unit_list)
+stop_words = [
+    'junk',
+    "(optional)"
+]
 
-# add_unit_list = np.setdiff1d(unitslist2, my_unit_list)
-# print(add_unit_list)
+
+print(stop_words)
+
+
+# potentially remove anything after or
+def parse_ingredients(ingredients):
+    ingredients_list = []
+
+    for i in ingredients:
+        quantity = ''
+        measurement = ''
+        name = ''
+        descriptor = ''
+        preperation = ''
+        tokens = [t.lower() for t in i.split() if i.lower().replace('\(', '') not in stop_words]
+        # find quantity
+        quantity = re.search("(-?(\d+)\s?((.\d+)?))", i)
+        if quantity != None:
+            quantity = str(quantity.group().strip())
+            tokens.remove(quantity)
+            print (quantity)
+
+        for t in tokens:
+            # finding measurement
+            if t in my_unit_list:
+                measurement = t
+                tokens.remove(t)
+                print(t)
+            elif t in descriptors_list:
+                descriptor = t
+                tokens.remove(t)
+                print(t)
+            elif t in preparations_list:
+                preparation = t
+                tokens.remove(t)
+                print(t)
+            elif t in stop_words:
+                tokens.remove(t)
+        name = " ".join(tokens).strip()
+        print(name)
+        print(tokens)
+
+        ingredient = {}
+        ingredient['name'] = ''
+        ingredient['quantity'] = 0
+        ingredient['measurement'] = ''
+        ingredient['descriptor'] = ''
+        ingredients_list.append(ingredient)
+# ingredient['prep'] = ''
+    return ingredients_list
