@@ -3,6 +3,10 @@
 
 import requests
 from bs4 import BeautifulSoup
+
+cooking_terms = ["bake", "sautee", "grill", "fry", ]
+measurement_terms = ["cup", "tablespoon", "teaspoon", "can", "cups", "ounce"]
+
 while True:
     requested_recipe_webpage = ''
     requested_recipe = ''
@@ -59,13 +63,44 @@ for d in directions:
     print (d.text)
 # div summary background  for title and short description
 
+parsed_ingredients = []
+for i in ingredients_lst:
+    ingredient = []
+    tokens = i.split(' ')
+    for t in tokens:
+        if any(char.isdigit() for char in t):
+            pass
+        elif any(word in t for word in measurement_terms):
+            pass
+        elif ',' in t:
+            t = t.replace(",","")
+            ingredient.append(t)
+            break
+        else:
+            ingredient.append(t)
+    parsed_ingredients.append(' '.join(ingredient))
+print(parsed_ingredients)
+
+stepbystep = []
+for dir in directions_lst:
+    dir = dir.replace("\n", " ")
+    tokens = dir.split('. ')
+    stepbystep.extend(tokens)
+print(stepbystep)
+
+keyingredients = []
+for dir in stepbystep:
+    for i in parsed_ingredients:
+        token = i.split(" ")
+        temp = []
+        for t in token:
+            if t in dir:
+                temp.append(t)
+        keyingredients.extend(temp)
+print(keyingredients)
 
 # dictionary of ingredient names as key, value = [quantity, measurement, descriptor, prep]
 # ingredients_dict = {}
 # ingredients_dict["ingredient"] = []
-
-
-cooking_terms = ["bake", "sautee", "grill", "fry", ]
-
 
 # weird terms,  "to taste", "pinch"
