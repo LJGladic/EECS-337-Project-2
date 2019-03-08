@@ -2,10 +2,13 @@ import numpy as np
 import re
 import nltk
 
+# to do
 # good testers 7000, 139236(weird with blue cheese, comma problem and stems),14140(alt and pepper)
-# problems temp of water and decimals
-# remove anything with parentheses around it
-# remove optional 6969
+# problems temp of water and decimals possibly
+# remove anything with parentheses around it maybe
+# remove optional in 6969
+# set up functionality for bigram and trigram checking for descriptors and prep
+
 my_unit_list = [
     "teaspoon",
     "teaspoons",
