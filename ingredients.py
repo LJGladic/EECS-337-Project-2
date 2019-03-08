@@ -2,16 +2,18 @@ import numpy as np
 import re
 import nltk
 
-# good testers 7000, 139236,14140(compound fraction)
+# good testers 7000, 139236(weird with blue cheese, comma problem and stems),14140(alt and pepper)
 # problems temp of water and decimals
 # remove anything with parentheses around it
-
+# remove optional 6969
 my_unit_list = [
     "teaspoon",
     "teaspoons",
     "t",
     "tsp",
     "tablespoon",
+    'package',
+    'packages',
     "tablespoons",
     "tbsp",
     "tbl",
@@ -75,26 +77,29 @@ my_unit_list = [
     'mm'
 ]
 
-preparations_list = [
-    'drained',
-    'chopped',
-    'softened'
-]
+# get preps from prep.txt
+preparations_list = []
+prep_file = open("prep.txt", "r")
+prep_lines = prep_file.readlines()
+prep_lines = set(prep_lines)
+for l in prep_lines:
+    preparations_list.append(str(l).strip())
 
 # get from text file
-descriptors_list = [
-    "room",
-    "temperature",
-    "chopped",
-    "diced",
-    "sliced"
-]
+
+# get descriptor list from text file
+descriptors_list = []
+desc_file = open("descriptors.txt", "r")
+desc_lines = desc_file.readlines()
+# desc_lines = set(desc_lines)
+for l in desc_lines:
+    descriptors_list.append(str(l).strip())
+# print (descriptors_list)
 
 stop_words = [
     'junk',
     "(optional)",
     ", or to taste"
-
 ]
 
 
@@ -104,6 +109,7 @@ stop_words = [
 # potentially remove anything after or
 # add anything after a comma to descriptors
 # figure out what to do about salt and pepper to taste 14140
+# add in bigrams feature andd then remove tokens from original tokens list if it matches desc or prep
 def parse_ingredients(ingredients):
     ingredients_list = []
 
@@ -113,42 +119,50 @@ def parse_ingredients(ingredients):
         name = ''
         descriptors = []
         preperations = []
-
+        paranthesis = []
         # adds parentheses to descriptors
         desc = re.findall("\(.*?\)", i)
         for d in desc:
             if d != None:
-                descriptors.append(d)
+                paranthesis.append(d)
                 i = i.replace(d, '')
 
         quantity = re.search("(-?(\d+)\s?((.\d+)?))+", i)
         if quantity != None:
-            print(quantity)
             quantity = str(quantity.group().strip())
-            print(quantity)
             i = i.replace(quantity, '')
             # print (quantity)
+        # fixes comma problem
+        i = i.replace(',', '')
         tokens = [t.lower() for t in i.split() if i.lower().replace('\(', '') not in stop_words]
+        remove_tokens = []
+
         for t in tokens:
+            t = t.strip()
             # finding measurement
             if t in my_unit_list:
                 measurement = t
-                tokens.remove(t)
-                # print(t)
+                remove_tokens.append(t)
             elif t in descriptors_list:
                 descriptors.append(t)
-                tokens.remove(t)
-                # print(t)
+                remove_tokens.append(t)
+
             elif t in preparations_list:
                 preparation = t
-                tokens.remove(t)
-                # print(t)
-            elif t in stop_words:
-                tokens.remove(t)
-        name = " ".join(tokens).strip()
-        print(name)
-        # print(tokens)
+                remove_tokens.append(t)
 
+            elif t in stop_words:
+                print("here")
+                remove_tokens.append(t)
+
+        for r in remove_tokens:
+            if r in tokens:
+                tokens.remove(r)
+
+        name = " ".join(tokens).strip()
+
+        for p in paranthesis:
+            descriptors.append(p)
         ingredient = {}
         ingredient['name'] = name
         ingredient['quantity'] = quantity
