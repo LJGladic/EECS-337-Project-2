@@ -5,6 +5,7 @@ from ingredients import parse_ingredients
 from cooking_method import parse_cook
 from tools import find_tools
 from bs4 import BeautifulSoup
+from transform import transform
 
 cooking_terms = ["bake", "sautee", "grill", "fry", ]
 measurement_terms = ['cup', 'cups', 'gram', 'grams', 'kilogram', 'kilograms', 'liter', 'liters', 'pound', 'pounds', 'clove', 'cloves', 'milliliter', 'milliliters', 'ounce', 'ounces',
@@ -119,3 +120,12 @@ main_method = parse_cook(directions_lst)
 # ingredients_dict["ingredient"] = []
 
 # weird terms,  "to taste", "pinch"
+
+while True:
+    code = input("Enter a transformation code if desired: (0 - original, 1 - vegetarian, 2 - healthy) ")
+    if code in ['0','1','2']:
+        break
+    else:
+        print("Invalid transformation code")
+# returns ingredient list, directions
+t_ingredient, t_direction = transform(code, parsed_ingredients, directions_lst)
