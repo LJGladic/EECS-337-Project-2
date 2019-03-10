@@ -2,6 +2,7 @@
 # Written by Andrew Bosset, Lukas J. Gladic, Julie Kim and Joshua Koo
 import requests
 from ingredients import parse_ingredients
+from cooking_method import parse_cook
 from tools import find_tools
 from bs4 import BeautifulSoup
 
@@ -86,6 +87,9 @@ print(ingredients_lst)
 
 all_tools = find_tools(directions_lst, ingredients_lst)
 print(all_tools)
+
+#main cooking method
+main_method = parse_cook(directions_lst)
 
 
 #stepbystep = []
