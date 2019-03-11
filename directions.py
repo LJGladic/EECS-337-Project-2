@@ -107,6 +107,7 @@ def find_time(direction):
                         return t + " " + next_word + " " + t2 + " " + tokens[i + 3]
     return time
 
+
 def print_parsed(parsed_dir):
     print("FULL DICT")
     print(parsed_dir)

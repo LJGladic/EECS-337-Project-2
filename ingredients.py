@@ -3,6 +3,7 @@ import re
 import nltk
 
 # to do
+# 73634
 # good testers 7000, 139236(weird with blue cheese, comma problem and stems),14140(alt and pepper)
 # problems temp of water and decimals possibly
 # remove anything with parentheses around it maybe
