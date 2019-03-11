@@ -4,6 +4,7 @@ import requests
 from ingredients import parse_ingredients
 from cooking_method import parse_cook
 from tools import find_tools
+from tools import step_tools
 from bs4 import BeautifulSoup
 from transform import transform
 from directions import parse_directions
@@ -75,7 +76,14 @@ all_tools = find_tools(directions_lst, ingredients_lst)
 # print(all_tools)
 
 
-# main cooking method
+#finding tools for each step
+num = 1
+for dir in directions_lst:
+    print(num)
+    str = step_tools(dir)
+    num+=1
+
+#main cooking method
 main_method = parse_cook(directions_lst)
 
 # directions_lst
