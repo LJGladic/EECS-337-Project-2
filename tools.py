@@ -13,6 +13,7 @@ tools = ['apple corer',
         'bread knife',
         'browning tray',
         'butter curler',
+        'brush',
         'cheese cutter',
         'cheese knife',
         'cheese slicer',
@@ -56,9 +57,13 @@ tools = ['apple corer',
         'milk frother',
         'mortar and pestle',
         'nutcracker',
+        'oven',
+        'stove',
         'oven glove',
         'oven mitt',
         'pastry bag',
+        'dish',
+        'dishes',
         'pastry blender',
         'pastry brush',
         'brush',
@@ -86,6 +91,7 @@ tools = ['apple corer',
         'wood spoon',
         'fork',
         'pan',
+        'pans',
         'cast iron skillet',
         'wok',
         'pot',
@@ -102,14 +108,19 @@ tools = ['apple corer',
 tool_relations = {'saute' : 'pan',
                   'fry' : 'pan',
                   'boil' : 'pot',
+                  'scrape' : 'knife',
                   'chopped' : 'knife',
                   'sliced' : 'knife',
                   'diced' : 'knife',
                   'minced' : 'knife',
                   'chop' : 'knife',
+                  'cut' : 'knife',
                   'slice' : 'knife',
                   'dice' : 'knife',
                   'mince' : 'knife',
+                  'beat' : 'whisk',
+                  'mix' : 'whisk',
+                  'stir' : 'whisk',
                   'tablespoon' : 'measuring spoon',
                   'teaspoon' : 'measuring spoon',
                   'tablespoons' : 'measuring spoon',
@@ -119,9 +130,11 @@ tool_relations = {'saute' : 'pan',
 
 
 def find_tools(directions_lst, ingredients_lst):
-    directions = [];
+    directions = []
     for dir in directions_lst:
+        dir = dir.lower()
         dir = dir.replace("\n", " ")
+        dir = dir.replace(".", " ")
         tokens = dir.split(' ')
         directions.append(tokens)
 
@@ -130,11 +143,10 @@ def find_tools(directions_lst, ingredients_lst):
         tokens = ing.split(' ')
         ingredients.append(tokens)
     #print("LOOK HERE")
-    #print(ingredients)
-
+    # print(ingredients)
 
     curr_tools = []
-    #direction parsing
+    # direction parsing
     dir_bigrams = []
     dir_trigrams = []
     ing_bigrams = []
@@ -148,7 +160,7 @@ def find_tools(directions_lst, ingredients_lst):
             if word in tool_relations:
                 if tool_relations[word] in tools and tool_relations[word] not in curr_tools:
                     curr_tools.append(tool_relations[word])
-    #ingredient parsing
+    # ingredient parsing
     for ing in ingredients:
         ing_bigrams.extend(nltk.bigrams(ing))
         ing_trigrams.extend(nltk.trigrams(ing))
@@ -157,8 +169,7 @@ def find_tools(directions_lst, ingredients_lst):
                 if tool_relations[word] in tools and tool_relations[word] not in curr_tools:
                     curr_tools.append(tool_relations[word])
 
-
-    #Looking for 2/3 word tools
+    # Looking for 2/3 word tools
     bitris = []
     bitris.extend(dir_bigrams)
     bitris.extend(dir_trigrams)
@@ -167,19 +178,52 @@ def find_tools(directions_lst, ingredients_lst):
 
     joined_grams = []
     for gram in bitris:
-        #print("Gram")
-        #print(gram)
+        # print("Gram")
+        # print(gram)
         new_word = ' '.join(gram)
         joined_grams.append(new_word)
-    print("Now JOINED")
-    print(joined_grams)
+    #print("Now JOINED")
+    # print(joined_grams)
 
     for gram in joined_grams:
         if gram in tools and gram not in curr_tools:
             curr_tools.append(gram)
 
-    #special cases
+    # special cases
     if "knife" in curr_tools and "cutting board" not in curr_tools:
         curr_tools.append("cutting board")
 
+    return curr_tools
+
+
+def step_tools(direction):
+    curr_tools = []
+
+    dir = direction.replace("\n", " ")
+    dir = dir.replace(".", " ")
+    dir = dir.lower()
+    tokens = dir.split(' ')
+
+    bitris = []
+    joined_grams = []
+    bitris.extend(nltk.bigrams(tokens))
+    bitris.extend(nltk.trigrams(tokens))
+
+    for gram in bitris:
+        new_word = ' '.join(gram)
+        joined_grams.append(new_word)
+
+    for word in tokens:
+        if word in tools and word not in curr_tools:
+            curr_tools.append(word)
+        if word in tool_relations:
+            if tool_relations[word] in tools and tool_relations[word] not in curr_tools:
+                curr_tools.append(tool_relations[word])
+
+    for gram in joined_grams:
+        if gram in tools and gram not in curr_tools:
+            curr_tools.append(gram)
+
+    print("tools for this step:")
+    print(curr_tools)
     return curr_tools

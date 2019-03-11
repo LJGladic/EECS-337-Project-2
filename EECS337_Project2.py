@@ -4,8 +4,10 @@ import requests
 from ingredients import parse_ingredients
 from cooking_method import parse_cook
 from tools import find_tools
+from tools import step_tools
 from bs4 import BeautifulSoup
 from transform import transform
+from directions import parse_directions
 
 cooking_terms = ["bake", "sautee", "grill", "fry", ]
 measurement_terms = ['cup', 'cups', 'gram', 'grams', 'kilogram', 'kilograms', 'liter', 'liters', 'pound', 'pounds', 'clove', 'cloves', 'milliliter', 'milliliters', 'ounce', 'ounces',
@@ -40,27 +42,20 @@ while True:
         print('Input not valid, please try again.')
 
 soup = BeautifulSoup(requested_recipe.text, 'html.parser')
-#print (soup)
-# print(soup.title)
+
 
 # gets title
 recipe_tital = soup.find("h1", {"id": "recipe-main-content"}).text
 print(recipe_tital)
-#soup.find_all("div", class_="stylelistrow")
 
-# recipe_time = soup.find("span", class_="ready-in-time").text
-# requested_recipe has the content from the website
-# print(recipe_time)
 
 prep_times = soup.find_all("li", class_="prepTime__item")
-# for p in prep_times:
-#     print(p)
+
 
 ingredients = soup.find_all("span", class_="recipe-ingred_txt added")
 ingredients_lst = []
 for i in ingredients:
     ingredients_lst.append(i.text)
-    # print(i.text)
 
 directions = soup.find_all("span", class_="recipe-directions__list--item")
 directions_lst = []
@@ -70,28 +65,29 @@ for d in directions:
 # div summary background  for title and short description
 
 parsed_ingredients = parse_ingredients(ingredients_lst)
-print("INGREDIENTS")
-print(ingredients_lst)
-# dictionary of ingredient names as key, value = [quantity, measurement, descriptor, prep]
-# ingredients_dict = {}
-# ingredients_dict["ingredient"] = []
+# print("INGREDIENTS")
+# print(ingredients_lst)
+
 
 # weird terms,  "to taste", "pinch"
 
-# print("SEPARATE")
-#separate_directions = []
-# for dir in directions_lst:
-#    dir = dir.replace("\n", " ")
-#    tokens = dir.split(' ')
-#    separate_directions.append(tokens)
-# print(separate_directions)
 
 all_tools = find_tools(directions_lst, ingredients_lst)
-print(all_tools)
+# print(all_tools)
+
+
+#finding tools for each step
+num = 1
+for dir in directions_lst:
+    print(num)
+    str = step_tools(dir)
+    num+=1
 
 #main cooking method
 main_method = parse_cook(directions_lst)
 
+# directions_lst
+parsed_directions = parse_directions(directions_lst, parsed_ingredients, all_tools)
 
 #stepbystep = []
 #print("DIRECTIONS LIST:")
@@ -123,7 +119,7 @@ main_method = parse_cook(directions_lst)
 
 while True:
     code = input("Enter a transformation code if desired: (0 - original, 1 - vegetarian, 2 - healthy) ")
-    if code in ['0','1','2']:
+    if code in ['0', '1', '2']:
         break
     else:
         print("Invalid transformation code")
