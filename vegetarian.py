@@ -1,0 +1,127 @@
+veg_subs = [
+    'tempeh',
+    'tofu',
+    'mushrooms',
+    'seitan',
+    'jackfruit',
+    'lentils'
+]
+
+broth_subs = [
+    'water',
+    'vegetable broth',
+    'mushroom broth',
+    'miso water'
+]
+
+meat = {
+    'bacon': ['tempeh', 'tofu', 'mushrooms'],
+    'beef': ['tempeh', 'tofu', 'seitan', 'jackfruit', 'lentils'],
+    'buffalo': ['tempeh', 'seitan', 'jackfruit'],
+    'bison': ['tempeh', 'tofu', 'seitan', 'jackfruit'],
+    'calf': ['tempeh', 'tofu', 'seitan', 'jackfruit'],
+    'chicken': ['tofu', 'seitan', 'jackfruit', 'lentils'],
+    'duck': ['tempeh', 'seitan', 'jackfruit'],
+    'gelatin': ['agar-agar'],
+    'goat': ['tempeh','seitan', 'jackfruit', 'lentils'],
+    'ground beef': ['lentils'],
+    'ham': ['tofu', 'seitan', 'jackfruit'],
+    'lamb': ['tofu', 'seitan', 'jackfruit'],
+    'meat': ['tempeh', 'tofu', 'seitan', 'jackfruit', 'lentils'],
+    'meatball': ['cauliflower'],
+    'mutton': ['tempeh', 'tofu', 'seitan', 'jackfruit'],
+    'pepperoni': ['tempeh', 'tofu', 'seitan', 'jackfruit'],
+    'pork': ['tempeh', 'tofu', 'seitan', 'jackfruit', 'lentils'],
+    'rabbit': ['seitan', 'jackfruit'],
+    'rib': ['tempeh', 'tofu', 'seitan', 'jackfruit', 'lentils'],
+    'steak': ['tempeh', 'tofu', 'seitan', 'jackfruit', 'lentils'],
+    'tripe': ['tempeh', 'tofu', 'seitan', 'jackfruit', 'lentils'],
+	'sausage': ['tempeh', 'tofu', 'seitan', 'jackfruit', 'lentils'],
+    'turkey': ['tofurky'],
+    'veal': ['tempeh', 'tofu', 'seitan', 'jackfruit', 'lentils'],
+    'venison': ['tempeh', 'tofu', 'seitan', 'jackfruit', 'lentils']
+}
+
+fish = [
+    'abalone',
+    'american shad',
+    'anchovy',
+    'arctic char',
+    'barracuda',
+    'barramundi',
+    'basa',
+    'bass',
+    'bombay duck',
+    'bream',
+    'brill',
+    'carp',
+    'caviar',
+    'cobia',
+    'cockle',
+    'cod',
+    'conch',
+    'croaker',
+    'cusk',
+    'dogfish',
+    'dorade',
+    'dory',
+    'dover sole',
+    'drum',
+    'eel',
+    'escolar',
+    'fish',
+    'flounder',
+    'grouper',
+    'haddock',
+    'hake',
+    'halibut',
+    'herring',
+    'hoki',
+    'lingcod',
+    'mackerel',
+    'mahi mahi',
+    'marlin',
+    'moi',
+    'mullet',
+    'mussel',
+    'octopus',
+    'opah',
+    'orange roughy',
+    'oyster',
+    'pike',
+    'perch',
+    'pollock',
+    'pompano',
+    'roe',
+    'salmon',
+    'sardine',
+    'scallop'
+    'scup',
+    'shark',
+    'skate',
+    'smelt',
+    'snapper',
+    'sturgeon',
+    'tilapia',
+    'trout',
+    'tuna',
+    'turbot',
+    'urchin',
+    'wahoo',
+    'walleye',
+    'yellowtail'
+]
+
+fish_subs = [
+    'jackfruit',
+    'tofu'
+]
+
+seafood = {
+    'clam': ['mushrooms'],
+    'crab': ['tempeh', 'jackfruit'],
+    'lobster': ['mushrooms'],
+    'octopus': ['mushrooms'],
+    'squid': ['mushrooms'],
+    'shrimp': ['vegan shrimp']
+}
