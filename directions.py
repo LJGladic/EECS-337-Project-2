@@ -1,10 +1,12 @@
 from cooking_method import get_methods
 from tools import find_tools, step_tools
-
-
+from fractions import Fraction
+import re
 # search for "for" then search for number and hour, minutes, seconds
 
 # 219763
+
+
 def parse_directions(directions_lst, ingredients, tools):
     print(tools)
     # print(ingredients)
@@ -46,7 +48,7 @@ def find_ingredients(direction, ingredients):
     for i in ingredients:
         ingredient = i['name']
         #print (ingredient)
-        if ingredient in direction:
+        if ingredient in direction and ingredient not in ingredients_used:
             ingredients_used.append(ingredient)
 
     return ingredients_used
@@ -58,21 +60,37 @@ def find_time(direction):
     time_units = ["hour", 'min', 'minutes', 'minute', 'hours', 'h',
                   'hr', 'hrs', 'mins', "second", 'seconds', 's', 'secs', 'sec']
     time = None
-    direction = direction.replace(",", '').replace("-", " to ")
+    direction = direction.replace(",", '').replace("-", " to ").replace("(", '').replace(")", '')
     double = False
+    fraction = False
+    # quantity = re.search("(-?(\d+)\s?((.\d+)?))+", i)
+    # if quantity != None:
+    #     quantity = str(quantity.group().strip())
+    #     i = i.replace(quantity, '')
     if "per side" in direction:
         double = True
     # print(direction)
     tokens = direction.split(' ')
     print(tokens)
     for t in tokens:
-        if t.isdigit():
+        if t.isdigit() or re.search("(-?(\d+)\s?((.\d+)?))+", t):
+            if re.search("(-?(\d+)\s?((.\d+)?))+", t):
+                fraction = True
             i = tokens.index(t)
             if i + 1 < len(tokens):
                 next_word = tokens[i + 1]
+                # handles if next word is a fraction i.e 1 1/2
+                if re.search("(-?(\d+)\s?((.\d+)?))+", next_word):
+                    fraction = True
+                    i += 1
+                    print(next_word)
+                    t = t + " " + next_word
+                    next_word = tokens[i + 1]
                 print(next_word)
                 if tokens[i + 1] in time_units:
                     if double:
+                        if fraction:
+                            t = float(sum(Fraction(s) for s in t.split()))
                         t = str(int(t) * 2)
 
                     return t + " " + next_word
@@ -81,8 +99,10 @@ def find_time(direction):
                     if tokens[i + 3] in time_units:
                         t2 = tokens[i + 2]
                         if double:
+                            if fraction:
+                                t = float(sum(Fraction(s) for s in t.split()))
+                                t2 = float(sum(Fraction(s) for s in t.split()))
                             t = str(int(t) * 2)
                             t2 = str(int(t2) * 2)
-                        #time = t + " " + next_word + " " + t2 + " " + tokens[i + 3]
                         return t + " " + next_word + " " + t2 + " " + tokens[i + 3]
     return time
