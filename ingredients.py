@@ -173,6 +173,6 @@ def parse_ingredients(ingredients):
         ingredient['descriptor'] = " ".join(descriptors).strip()
         ingredient['preperations'] = " ".join(preperations).strip()
         ingredients_list.append(ingredient)
-        print(ingredient)
+        # print(ingredient)
 # ingredient['prep'] = ''
     return ingredients_list
