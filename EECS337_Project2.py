@@ -143,11 +143,12 @@ print_parsed(parsed_directions)
 # weird terms,  "to taste", "pinch"
 
 while True:
-
-    code = input("Enter a transformation code if desired: (0 - original, 1 - vegetarian, 2 - healthy) ")
-    if code in ['0', '1', '2']:
-        break
+    code = input("Enter a transformation code if desired: (0 - original, 1 - vegetarian, 2 - healthy, 3 - unhealthy, 4 - Indian, 5 - Italian) ")
+    if code == '0':
+        print_parsed(parsed_directions)
+    elif code in ['1', '2', '3', '4', '5']:
+        t_ingredient, t_direction = transform(code, parsed_ingredients, parsed_directions)
+        print_parsed(t_direction)
     else:
         print("Invalid transformation code")
 # returns ingredient list, directions
-t_ingredient, t_direction = transform(code, parsed_ingredients, directions_lst)
