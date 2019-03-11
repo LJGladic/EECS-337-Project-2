@@ -219,6 +219,6 @@ def step_tools(direction):
         if gram in tools and gram not in curr_tools:
             curr_tools.append(gram)
 
-    print("tools for this step:")
-    print(curr_tools)
+    #print("tools for this step:")
+    # print(curr_tools)
     return curr_tools
