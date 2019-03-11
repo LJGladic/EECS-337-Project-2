@@ -39,16 +39,22 @@ def parse_cook(directions_lst):
     last_step_parse = directions_lst[-2:]
     last_step = last_step_parse[0]
     last_step = last_step.replace("\n", "")
-    print("LAST")
-    print(last_step)
-    cook_bigrams = []
+    last_step = last_step.lower()
     tokens = last_step.split(' ')
-    cook_bigrams.extend(nltk.bigrams(last_step))
-    combined_list = tokens + cook_bigrams
 
+    bigrams = []
+    cook_bigrams = []
+    bigrams.extend(nltk.bigrams(tokens))
+    for x in bigrams:
+        cook_bigrams.append(' '.join(x))
+
+    combined_list = tokens + cook_bigrams
+    print("COMBINED")
+    print(combined_list)
     freq = {}
     max = 0
     max_key = ""
+
     for x in combined_list:
         if x in cooking_terms:
             if x in freq:
@@ -61,5 +67,6 @@ def parse_cook(directions_lst):
                 max = freq[x]
                 max_key = x
     method_mode = max_key
+    print("METHOD")
     print(method_mode)
     return method_mode
