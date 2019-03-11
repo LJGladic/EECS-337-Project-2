@@ -86,3 +86,26 @@ def find_time(direction):
                         #time = t + " " + next_word + " " + t2 + " " + tokens[i + 3]
                         return t + " " + next_word + " " + t2 + " " + tokens[i + 3]
     return time
+
+def print_parsed(parsed_dir):
+    print("FULL DICT")
+    print(parsed_dir)
+
+    for dict in parsed_dir:
+        step = str(dict['step_num'])
+        tools = ', '.join(dict['tools'])
+        if tools == "":
+            tools = "None"
+        ingredients = ', '.join(dict['ingredients'])
+        if ingredients == "":
+            ingredients = "None"
+        method = dict['methods']
+        if method == "":
+            method = "N/A"
+        print("Step: " + step)
+        print(dict['direction'])
+        print("Time: " + str(dict['time']))
+        print("Necessary tools: " + tools)
+        print("Cooking method: " + method)
+        print("Necessary ingredients: " + ingredients)
+        print("\n")
