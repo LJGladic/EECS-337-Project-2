@@ -31,6 +31,45 @@ cooking_terms = ["bake",
                  "sear",
                  "cook"
                  ]
+aux_methods = ['mix',
+               'stir',
+               'toss',
+               'whisk',
+               'chop',
+               'grate', 'stir', 'shake', 'mince', 'crush', 'squeeze', 'coat', 'heat'
+               'drain', 'spoon', 'beat', 'pour', 'sprinkle', 'garnish', 'spread', 'cover',
+               'grease', 'blend'
+               ]
+
+
+def get_methods(direction):
+    direction = direction.lower()
+    tokens = direction.split(' ')
+    bigrams = []
+    cook_bigrams = []
+    bigrams.extend(nltk.bigrams(tokens))
+    for x in bigrams:
+        cook_bigrams.append(' '.join(x))
+
+    combined_list = tokens + cook_bigrams
+    all_cooking_terms = cooking_terms + aux_methods
+    freq = {}
+    max = 0
+    max_key = ""
+
+    for x in combined_list:
+        if x in all_cooking_terms:
+            if x in freq:
+                temp = freq[x]
+                temp += 1
+                freq[x] = temp
+            else:
+                freq[x] = 1
+            if freq[x] > max:
+                max = freq[x]
+                max_key = x
+    method_mode = max_key
+    return method_mode
 
 
 def parse_cook(directions_lst):
@@ -52,8 +91,8 @@ def parse_cook(directions_lst):
         cook_bigrams.append(' '.join(x))
 
     combined_list = tokens + cook_bigrams
-    print("COMBINED")
-    print(combined_list)
+    # print("COMBINED")
+    # print(combined_list)
     freq = {}
     max = 0
     max_key = ""
