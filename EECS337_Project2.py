@@ -47,10 +47,17 @@ soup = BeautifulSoup(requested_recipe.text, 'html.parser')
 
 # gets title
 recipe_tital = soup.find("h1", {"id": "recipe-main-content"}).text
-print(recipe_tital)
 
 
 prep_times = soup.find_all("li", class_="prepTime__item")
+print("FINDING TIMES")
+total_time_block = str(prep_times[3])
+first_quote = total_time_block.find("\"")
+second_quote = total_time_block.find("\"", first_quote + 1)
+print(first_quote)
+print(second_quote)
+total_time = total_time_block[first_quote + 10:second_quote]
+print(total_time)
 
 
 ingredients = soup.find_all("span", class_="recipe-ingred_txt added")
@@ -66,8 +73,8 @@ for d in directions:
 # div summary background  for title and short description
 
 parsed_ingredients = parse_ingredients(ingredients_lst)
-# print("INGREDIENTS")
-# print(ingredients_lst)
+print("INGREDIENTS")
+print(ingredients_lst)
 
 
 # weird terms,  "to taste", "pinch"
@@ -90,6 +97,21 @@ main_method = parse_cook(directions_lst)
 # directions_lst
 parsed_directions = parse_directions(directions_lst, parsed_ingredients, all_tools)
 
+
+#Actual printing for directions starts here:
+print("Dish: " + recipe_tital)
+print("Total time: " + total_time)
+print("All ingredients: ")
+for x in ingredients_lst:
+    print(x)
+print(" ")
+print("Necessary tools: ")
+for x in all_tools:
+    print(x)
+print(" ")
+print("Main cooking method: " + main_method)
+print(" ")
+print("Step by step directions:")
 print_parsed(parsed_directions)
 
 #stepbystep = []
