@@ -109,8 +109,6 @@ def find_time(direction):
 
 
 def print_parsed(parsed_dir):
-    print("FULL DICT")
-    print(parsed_dir)
 
     for dict in parsed_dir:
         step = str(dict['step_num'])
