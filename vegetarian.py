@@ -24,7 +24,7 @@ meat = {
     'duck': ['tempeh', 'seitan', 'jackfruit'],
     'gelatin': ['agar-agar'],
     'goat': ['tempeh','seitan', 'jackfruit', 'lentils'],
-    'ground beef': ['lentils'],
+    'ground beef': ['lentils', 'mushrooms'],
     'ham': ['tofu', 'seitan', 'jackfruit'],
     'lamb': ['tofu', 'seitan', 'jackfruit'],
     'meat': ['tempeh', 'tofu', 'seitan', 'jackfruit', 'lentils'],
