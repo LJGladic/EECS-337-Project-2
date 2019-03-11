@@ -8,6 +8,7 @@ from tools import step_tools
 from bs4 import BeautifulSoup
 from transform import transform
 from directions import parse_directions
+from directions import print_parsed
 
 cooking_terms = ["bake", "sautee", "grill", "fry", ]
 measurement_terms = ['cup', 'cups', 'gram', 'grams', 'kilogram', 'kilograms', 'liter', 'liters', 'pound', 'pounds', 'clove', 'cloves', 'milliliter', 'milliliters', 'ounce', 'ounces',
@@ -89,6 +90,8 @@ main_method = parse_cook(directions_lst)
 # directions_lst
 parsed_directions = parse_directions(directions_lst, parsed_ingredients, all_tools)
 
+print_parsed(parsed_directions)
+
 #stepbystep = []
 #print("DIRECTIONS LIST:")
 # print(directions_lst)
@@ -118,6 +121,7 @@ parsed_directions = parse_directions(directions_lst, parsed_ingredients, all_too
 # weird terms,  "to taste", "pinch"
 
 while True:
+
     code = input("Enter a transformation code if desired: (0 - original, 1 - vegetarian, 2 - healthy) ")
     if code in ['0', '1', '2']:
         break
