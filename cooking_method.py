@@ -28,18 +28,19 @@ cooking_terms = ["bake",
                  "pan fry",
                  "pressure-cook",
                  "pressure cook",
-                 "sear",
-                 "cook"
+                 "sear"
                  ]
 aux_methods = ['mix',
                'stir',
                'toss',
                'whisk',
-               'chop',
+               'chop', 'knead', 'scrape'
                'grate', 'stir', 'shake', 'mince', 'crush', 'squeeze', 'coat', 'heat'
                'drain', 'spoon', 'beat', 'pour', 'sprinkle', 'garnish', 'spread', 'cover',
                'grease', 'blend'
                ]
+
+# make this return all methods
 
 
 def get_methods(direction):
