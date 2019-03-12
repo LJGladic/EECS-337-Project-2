@@ -124,7 +124,21 @@ def transform(code, input_ingredients, input_directions):
         directions.append(step)
     # Italian
     elif code == '5':
-        pass
+        sub = None
+        for i in parsed_ingredients:
+            if 'cheese' in i['name']:
+                sub = random.choice(italian.italian_cheeses)
+            for food in italian.other_meats:
+                if food in i['name']:
+                    sub = random.choice(italian.italian_meats)
+            for food in italian.other_fish:
+                if food in i['name']:
+                    sub = random.choice(italian.italian_fish)
+            for food in italian.other_herbs_and_spices:
+                if food in i['name']:
+                    sub = random.choice(italian.italian_herbs_and_spices)
+            
+
 
 
     return parsed_ingredients, directions
