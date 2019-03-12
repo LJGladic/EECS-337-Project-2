@@ -130,5 +130,6 @@ def print_parsed(parsed_dir):
         print("Time: " + str(dict['time']))
         print("Necessary tools: " + tools)
         print("Cooking method: " + method)
+
         print("Necessary ingredients: " + ingredients)
         print("\n")

@@ -50,12 +50,16 @@ recipe_tital = soup.find("h1", {"id": "recipe-main-content"}).text
 
 
 prep_times = soup.find_all("li", class_="prepTime__item")
+total_time = ""
+try:
+    total_time_block = str(prep_times[3])
+    first_quote = total_time_block.find("\"")
+    second_quote = total_time_block.find("\"", first_quote + 1)
 
-total_time_block = str(prep_times[3])
-first_quote = total_time_block.find("\"")
-second_quote = total_time_block.find("\"", first_quote + 1)
+    total_time = total_time_block[first_quote + 10:second_quote]
+except:
+    total_time = "N/A"
 
-total_time = total_time_block[first_quote + 10:second_quote]
 
 
 
