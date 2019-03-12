@@ -93,7 +93,39 @@ def transform(code, input_ingredients, input_directions):
 
     # unhealthy
     elif code == '3':
-        pass
+        sub = None
+        for i in parsed_ingredients:
+            for key in healthy_transforms.from_healthy_carbs.keys():
+                if key in i['name']:
+                    sub = healthy_transforms.from_healthy_carbs[key]
+            for key in healthy_transforms.from_healthy_dairy.keys():
+                if key in i['name']:
+                    sub = healthy_transforms.from_healthy_dairy[key]
+            for key in healthy_transforms.from_healthy_fats.keys():
+                if key in i['name']:
+                    sub = healthy_transforms.from_healthy_fats[key]
+            for key in healthy_transforms.from_healthy_protein.keys():
+                if key in i['name']:
+                    sub = healthy_transforms.from_healthy_protein[key]
+            if sub:
+                tokens = i['name'].split(" ")
+                for d in directions:
+                    mapped = []
+                    for t in tokens:
+                        if t in d['direction']:
+                            mapped.append(t)
+                    word = " ".join(mapped)
+                    if word != "" and sub not in d['direction']:
+                        d['direction'] = d['direction'].replace(word, sub)
+                        ingredients = []
+                        for ingredient in d['ingredients']:
+                            ingredient = ingredient.replace(word, sub)
+                            ingredients.append(ingredient)
+                        d['ingredients'] = ingredients
+                i['name'] = sub
+                i['descriptor'] = ''
+            sub = None
+            
     # Indian
     elif code == '4':
         for i in parsed_ingredients:
