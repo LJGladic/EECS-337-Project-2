@@ -17,6 +17,19 @@ def transform(code, input_ingredients, input_directions):
                 sub = random.choice(vegetarian.broth_subs)
                 while sub in used:
                     sub = random.choice(vegetarian.broth_subs)
+                for d in directions:
+                    if 'broth' in d['direction']:
+                        d['direction'] = d['direction'].replace('broth', sub)
+                        ingredients = []
+                        for ingredient in d['ingredients']:
+                            ingredient = ingredient.replace(i['name'], sub)
+                            ingredients.append(ingredient)
+                        d['ingredients'] = ingredients
+                i['name'] = sub
+                i['descriptor'] = ''
+                used.add(sub)
+                sub = None
+                pass
             if 'gravy' in i['name']:
                 sub = 'onion gravy'
             for key in vegetarian.meat.keys():
@@ -45,13 +58,13 @@ def transform(code, input_ingredients, input_directions):
                         if t in d['direction']:
                             mapped.append(t)
                     word = " ".join(mapped)
-                    if word != "":
+                    if word != "" and sub not in d['direction']:
                         d['direction'] = d['direction'].replace(word, sub)
-                    ingredients = []
-                    for ingredient in d['ingredients']:
-                        ingredient = ingredient.replace(word, sub)
-                        ingredients.append(ingredient)
-                    d['ingredients'] = ingredients
+                        ingredients = []
+                        for ingredient in d['ingredients']:
+                            ingredient = ingredient.replace(word, sub)
+                            ingredients.append(ingredient)
+                        d['ingredients'] = ingredients
                 i['name'] = sub
                 i['descriptor'] = ''
                 used.add(sub)
