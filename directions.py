@@ -51,7 +51,8 @@ def find_ingredients(direction, ingredients):
     for i in ingredients:
         ingredient = i['name']
         #print (ingredient)
-        if ingredient in direction and ingredient not in ingredients_used:
+        tokens = i['name'].split(" ")
+        if any(word in direction for word in tokens) and ingredient not in ingredients_used:
             ingredients_used.append(ingredient)
 
     return ingredients_used
