@@ -139,7 +139,24 @@ def transform(code, input_ingredients, input_directions):
             for food in italian.other_herbs_and_spices:
                 if food in i['name']:
                     sub = random.choice(italian.italian_herbs_and_spices)
-            
+            if sub:
+                tokens = i['name'].split(" ")
+                for d in directions:
+                    mapped = []
+                    for t in tokens:
+                        if t in d['direction']:
+                            mapped.append(t)
+                    word = " ".join(mapped)
+                    if word != "" and sub not in d['direction']:
+                        d['direction'] = d['direction'].replace(word, sub)
+                        ingredients = []
+                        for ingredient in d['ingredients']:
+                            ingredient = ingredient.replace(word, sub)
+                            ingredients.append(ingredient)
+                        d['ingredients'] = ingredients
+                i['name'] = sub
+                i['descriptor'] = ''
+            sub = None
 
 
     list_ingredients = []
