@@ -146,7 +146,7 @@ def parse_ingredients(ingredients):
         remove_bigrams = []
         for b in bigrams:
             b = ' '.join(b).strip()
-            print(b)
+            # print(b)
             # finding measurement
             if b in my_unit_list:
                 measurement = b
@@ -205,6 +205,6 @@ def parse_ingredients(ingredients):
         ingredient['preperations'] = " ".join(preperations).strip()
         ingredients_list.append(ingredient)
 
-        print(ingredient)
+        # print(ingredient)
 # ingredient['prep'] = ''
     return ingredients_list
