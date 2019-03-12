@@ -10,6 +10,7 @@ import re
 def parse_directions(directions_lst, ingredients, tools):
     print(tools)
     # print(ingredients)
+    methods_list = []
     directions = ""
     for dir in directions_lst:
         dir = dir.strip()
@@ -29,6 +30,8 @@ def parse_directions(directions_lst, ingredients, tools):
             # print(steps_ingredients)
             steps_tools = step_tools(dir)
             steps_methods = get_methods(dir)
+            if steps_methods != [] or steps_methods != '':
+                methods_list.append(steps_methods)
             step["step_num"] = str(i)
             step["direction"] = dir
             step["time"] = find_time(dir)
@@ -39,7 +42,7 @@ def parse_directions(directions_lst, ingredients, tools):
             print(step)
             print("\r")
         i += 1
-    return steps
+    return steps, methods_list
 
 
 # 6969 does not find nuts

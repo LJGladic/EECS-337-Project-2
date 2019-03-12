@@ -84,21 +84,21 @@ all_tools = find_tools(directions_lst, ingredients_lst)
 # print(all_tools)
 
 
-#finding tools for each step
+# finding tools for each step
 num = 1
 for dir in directions_lst:
     print(num)
     str = step_tools(dir)
-    num+=1
+    num += 1
 
-#main cooking method
+# main cooking method
 main_method = parse_cook(directions_lst)
 
 # directions_lst
-parsed_directions = parse_directions(directions_lst, parsed_ingredients, all_tools)
+parsed_directions, all_methods = parse_directions(directions_lst, parsed_ingredients, all_tools)
 
 
-#Actual printing for directions starts here:
+# Actual printing for directions starts here:
 print("Dish: " + recipe_tital)
 print("Total time: " + total_time)
 print("All ingredients: ")
@@ -110,6 +110,10 @@ for x in all_tools:
     print(x)
 print(" ")
 print("Main cooking method: " + main_method)
+print("all cooking methods: ")
+for m in all_methods:
+    if m != main_method and m.strip() != '':
+        print(m)
 print(" ")
 print("Step by step directions:")
 print_parsed(parsed_directions)
