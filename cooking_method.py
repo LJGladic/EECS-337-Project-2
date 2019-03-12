@@ -48,6 +48,7 @@ def get_methods(direction):
     tokens = direction.split(' ')
     bigrams = []
     cook_bigrams = []
+    methods = []
     bigrams.extend(nltk.bigrams(tokens))
     for x in bigrams:
         cook_bigrams.append(' '.join(x))
@@ -60,17 +61,12 @@ def get_methods(direction):
 
     for x in combined_list:
         if x in all_cooking_terms:
-            if x in freq:
-                temp = freq[x]
-                temp += 1
-                freq[x] = temp
-            else:
-                freq[x] = 1
-            if freq[x] > max:
-                max = freq[x]
-                max_key = x
-    method_mode = max_key
-    return method_mode
+            if x not in methods:
+                methods.append(x)
+    print("METHODS")
+    print(methods)
+    print("END")
+    return methods
 
 
 def parse_cook(directions_lst):

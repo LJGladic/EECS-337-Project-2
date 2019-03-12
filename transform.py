@@ -7,7 +7,7 @@ import copy
 
 def transform(code, input_ingredients, input_directions):
     parsed_ingredients = copy.deepcopy(input_ingredients)
-    directions = []
+    directions = copy.deepcopy(input_directions)
     # vegetarian
     if code == '1':
         used = set()
@@ -17,6 +17,19 @@ def transform(code, input_ingredients, input_directions):
                 sub = random.choice(vegetarian.broth_subs)
                 while sub in used:
                     sub = random.choice(vegetarian.broth_subs)
+                for d in directions:
+                    if 'broth' in d['direction']:
+                        d['direction'] = d['direction'].replace('broth', sub)
+                        ingredients = []
+                        for ingredient in d['ingredients']:
+                            ingredient = ingredient.replace(i['name'], sub)
+                            ingredients.append(ingredient)
+                        d['ingredients'] = ingredients
+                i['name'] = sub
+                i['descriptor'] = ''
+                used.add(sub)
+                sub = None
+                pass
             if 'gravy' in i['name']:
                 sub = 'onion gravy'
             for key in vegetarian.meat.keys():
@@ -45,13 +58,13 @@ def transform(code, input_ingredients, input_directions):
                         if t in d['direction']:
                             mapped.append(t)
                     word = " ".join(mapped)
-                    if word != "":
+                    if word != "" and sub not in d['direction']:
                         d['direction'] = d['direction'].replace(word, sub)
-                    ingredients = []
-                    for ingredient in d['ingredients']:
-                        ingredient = ingredient.replace(word, sub)
-                        ingredients.append(ingredient)
-                    d['ingredients'] = ingredients
+                        ingredients = []
+                        for ingredient in d['ingredients']:
+                            ingredient = ingredient.replace(word, sub)
+                            ingredients.append(ingredient)
+                        d['ingredients'] = ingredients
                 i['name'] = sub
                 i['descriptor'] = ''
                 used.add(sub)
@@ -74,28 +87,58 @@ def transform(code, input_ingredients, input_directions):
                     sub = healthy_transforms.to_healthy_protein[key]
             if sub:
                 tokens = i['name'].split(" ")
-                for input_d in input_directions:
-                    d = copy.deepcopy(input_d)
+                for d in directions:
                     mapped = []
                     for t in tokens:
                         if t in d['direction']:
                             mapped.append(t)
                     word = " ".join(mapped)
-                    if word != "":
+                    if word != "" and sub not in d['direction']:
                         d['direction'] = d['direction'].replace(word, sub)
                         ingredients = []
                         for ingredient in d['ingredients']:
                             ingredient = ingredient.replace(word, sub)
                             ingredients.append(ingredient)
                         d['ingredients'] = ingredients
-                    directions.append(d)
                 i['name'] = sub
                 i['descriptor'] = ''
             sub = None
 
     # unhealthy
     elif code == '3':
-        pass
+        sub = None
+        for i in parsed_ingredients:
+            for key in healthy_transforms.from_healthy_carbs.keys():
+                if key in i['name']:
+                    sub = healthy_transforms.from_healthy_carbs[key]
+            for key in healthy_transforms.from_healthy_dairy.keys():
+                if key in i['name']:
+                    sub = healthy_transforms.from_healthy_dairy[key]
+            for key in healthy_transforms.from_healthy_fats.keys():
+                if key in i['name']:
+                    sub = healthy_transforms.from_healthy_fats[key]
+            for key in healthy_transforms.from_healthy_protein.keys():
+                if key in i['name']:
+                    sub = healthy_transforms.from_healthy_protein[key]
+            if sub:
+                tokens = i['name'].split(" ")
+                for d in directions:
+                    mapped = []
+                    for t in tokens:
+                        if t in d['direction']:
+                            mapped.append(t)
+                    word = " ".join(mapped)
+                    if word != "" and sub not in d['direction']:
+                        d['direction'] = d['direction'].replace(word, sub)
+                        ingredients = []
+                        for ingredient in d['ingredients']:
+                            ingredient = ingredient.replace(word, sub)
+                            ingredients.append(ingredient)
+                        d['ingredients'] = ingredients
+                i['name'] = sub
+                i['descriptor'] = ''
+            sub = None
+            
     # Indian
     elif code == '4':
         for i in parsed_ingredients:
@@ -141,7 +184,24 @@ def transform(code, input_ingredients, input_directions):
             for food in italian.other_herbs_and_spices:
                 if food in i['name']:
                     sub = random.choice(italian.italian_herbs_and_spices)
-            
+            if sub:
+                tokens = i['name'].split(" ")
+                for d in directions:
+                    mapped = []
+                    for t in tokens:
+                        if t in d['direction']:
+                            mapped.append(t)
+                    word = " ".join(mapped)
+                    if word != "" and sub not in d['direction']:
+                        d['direction'] = d['direction'].replace(word, sub)
+                        ingredients = []
+                        for ingredient in d['ingredients']:
+                            ingredient = ingredient.replace(word, sub)
+                            ingredients.append(ingredient)
+                        d['ingredients'] = ingredients
+                i['name'] = sub
+                i['descriptor'] = ''
+            sub = None
 
 
     list_ingredients = []

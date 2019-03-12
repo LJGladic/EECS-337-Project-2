@@ -31,8 +31,9 @@ def parse_directions(directions_lst, ingredients, tools):
             # print(steps_ingredients)
             steps_tools = step_tools(dir)
             steps_methods = get_methods(dir)
-            if steps_methods != [] or steps_methods != '':
-                methods_list.append(steps_methods)
+            for x in steps_methods:
+                if x not in methods_list:
+                    methods_list.append(x)
             step["step_num"] = str(i)
             step["direction"] = dir
             step["time"] = find_time(dir)
@@ -132,6 +133,11 @@ def print_parsed(parsed_dir):
         print(dict['direction'])
         print("Time: " + str(dict['time']))
         print("Necessary tools: " + tools)
-        print("Cooking method: " + method)
+        if len(method) > 1:
+            methods = ", ".join(method)
+        else:
+            methods = "".join(method)
+        print("Other cooking methods: " + methods)
+
         print("Necessary ingredients: " + ingredients)
         print("\n")
