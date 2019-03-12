@@ -62,7 +62,10 @@ def get_methods(direction):
     for x in combined_list:
         if x in all_cooking_terms:
             if x not in methods:
-                methods.extend(x)
+                methods.append(x)
+    print("METHODS")
+    print(methods)
+    print("END")
     return methods
 
 

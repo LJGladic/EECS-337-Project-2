@@ -30,8 +30,9 @@ def parse_directions(directions_lst, ingredients, tools):
             # print(steps_ingredients)
             steps_tools = step_tools(dir)
             steps_methods = get_methods(dir)
-            if steps_methods != [] or steps_methods != '':
-                methods_list.append(steps_methods)
+            for x in steps_methods:
+                if x not in methods_list:
+                    methods_list.append(x)
             step["step_num"] = str(i)
             step["direction"] = dir
             step["time"] = find_time(dir)

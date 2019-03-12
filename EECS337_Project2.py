@@ -112,8 +112,9 @@ print("Necessary tools: ")
 for x in all_tools:
     print(x)
 print(" ")
-print("Main cooking method: " + main_method)
-print("all cooking methods: ")
+print("Primary cooking method: " + main_method)
+print("")
+print("All other cooking methods: ")
 for m in all_methods:
     if m != main_method and m.strip() != '':
         print(m)
@@ -180,7 +181,7 @@ while True:
         print_parsed(t_direction)
         print("Transformation complete!")
     elif code == "6":
-        break;
+        break
     else:
         print("Invalid transformation code")
 # returns ingredient list, directions
