@@ -17,3 +17,7 @@ Main file is -> EECS337_Project2.py
 2. First you can choose to enter either a recipe number or the whole recipe URL.
 3. Then you can choose what transformation(s) to perform (vegetarian, healthy, unhealthy, indian and italian)
 4. You can type '6' to exit.
+
+Issues we can't control:
+Random videos get added sometimes to the recipes as adds, so WATCH NOW gets added sometimes as a step, and will
+mess with other steps.  This can get solved by just running the code again.
