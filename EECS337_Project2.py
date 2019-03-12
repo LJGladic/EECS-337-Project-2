@@ -50,14 +50,13 @@ recipe_tital = soup.find("h1", {"id": "recipe-main-content"}).text
 
 
 prep_times = soup.find_all("li", class_="prepTime__item")
-print("FINDING TIMES")
+
 total_time_block = str(prep_times[3])
 first_quote = total_time_block.find("\"")
 second_quote = total_time_block.find("\"", first_quote + 1)
-print(first_quote)
-print(second_quote)
+
 total_time = total_time_block[first_quote + 10:second_quote]
-print(total_time)
+
 
 
 ingredients = soup.find_all("span", class_="recipe-ingred_txt added")
@@ -73,8 +72,8 @@ for d in directions:
 # div summary background  for title and short description
 
 parsed_ingredients = parse_ingredients(ingredients_lst)
-print("INGREDIENTS")
-print(ingredients_lst)
+#print("INGREDIENTS")
+#print(ingredients_lst)
 
 
 # weird terms,  "to taste", "pinch"
@@ -113,6 +112,8 @@ print("Main cooking method: " + main_method)
 print(" ")
 print("Step by step directions:")
 print_parsed(parsed_directions)
+#end of print
+
 
 #stepbystep = []
 #print("DIRECTIONS LIST:")
@@ -143,12 +144,35 @@ print_parsed(parsed_directions)
 # weird terms,  "to taste", "pinch"
 
 while True:
-    code = input("Enter a transformation code if desired: (0 - original, 1 - vegetarian, 2 - healthy, 3 - unhealthy, 4 - Indian, 5 - Italian) ")
+    code = input("Enter a transformation code if desired: (0 - original, 1 - vegetarian, 2 - healthy, 3 - unhealthy, 4 - Indian, 5 - Italian, 6 - Exit) ")
     if code == '0':
         print_parsed(parsed_directions)
     elif code in ['1', '2', '3', '4', '5']:
+        recipe = ""
+        if code == '1':
+            recipe = "Vegetarian"
+        elif code == "2":
+            recipe = "Healthy"
+        elif code == "3":
+            recipe = "Unhealthy"
+        elif code == "4":
+            recipe = "Indian"
+        elif code == "5":
+            recipe = "Italian"
+
+        print("Recipe transformation to: " + recipe)
+        print("")
+
         t_ingredient, t_direction = transform(code, parsed_ingredients, parsed_directions)
+        print("New Ingredients:")
+        for x in t_ingredient:
+            print(x)
+        print("")
+        print("New step-by-step directions:")
         print_parsed(t_direction)
+        print("Transformation complete!")
+    elif code == "6":
+        break;
     else:
         print("Invalid transformation code")
 # returns ingredient list, directions

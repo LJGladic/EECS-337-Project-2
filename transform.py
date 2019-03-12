@@ -80,11 +80,11 @@ def transform(code, input_ingredients, input_directions):
                     word = " ".join(mapped)
                     if word != "":
                         d['direction'] = d['direction'].replace(word, sub)
-                    ingredients = []
-                    for ingredient in d['ingredients']:
-                        ingredient = ingredient.replace(word, sub)
-                        ingredients.append(ingredient)
-                    d['ingredients'] = ingredients
+                        ingredients = []
+                        for ingredient in d['ingredients']:
+                            ingredient = ingredient.replace(word, sub)
+                            ingredients.append(ingredient)
+                        d['ingredients'] = ingredients
                 i['name'] = sub
                 i['descriptor'] = ''
             sub = None
@@ -126,5 +126,9 @@ def transform(code, input_ingredients, input_directions):
     elif code == '5':
         pass
 
+    list_ingredients = []
+    for dict in parsed_ingredients:
+        if dict['name'] not in list_ingredients:
+            list_ingredients.append(dict['name'])
 
-    return parsed_ingredients, directions
+    return list_ingredients, directions
