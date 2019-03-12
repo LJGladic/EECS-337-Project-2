@@ -129,7 +129,11 @@ def print_parsed(parsed_dir):
         print(dict['direction'])
         print("Time: " + str(dict['time']))
         print("Necessary tools: " + tools)
-        print("Cooking method: " + method)
+        if len(method) > 1:
+            methods = ", ".join(method)
+        else:
+            methods = "".join(method)
+        print("Other cooking methods: " + methods)
 
         print("Necessary ingredients: " + ingredients)
         print("\n")
