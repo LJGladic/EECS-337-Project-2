@@ -7,7 +7,7 @@ import copy
 
 def transform(code, input_ingredients, input_directions):
     parsed_ingredients = copy.deepcopy(input_ingredients)
-    directions = []
+    directions = copy.deepcopy(input_directions)
     # vegetarian
     if code == '1':
         used = set()
@@ -74,21 +74,19 @@ def transform(code, input_ingredients, input_directions):
                     sub = healthy_transforms.to_healthy_protein[key]
             if sub:
                 tokens = i['name'].split(" ")
-                for input_d in input_directions:
-                    d = copy.deepcopy(input_d)
+                for d in directions:
                     mapped = []
                     for t in tokens:
                         if t in d['direction']:
                             mapped.append(t)
                     word = " ".join(mapped)
-                    if word != "":
+                    if word != "" and sub not in d['direction']:
                         d['direction'] = d['direction'].replace(word, sub)
                         ingredients = []
                         for ingredient in d['ingredients']:
                             ingredient = ingredient.replace(word, sub)
                             ingredients.append(ingredient)
                         d['ingredients'] = ingredients
-                    directions.append(d)
                 i['name'] = sub
                 i['descriptor'] = ''
             sub = None
