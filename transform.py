@@ -7,7 +7,7 @@ import copy
 
 def transform(code, input_ingredients, input_directions):
     parsed_ingredients = copy.deepcopy(input_ingredients)
-    directions = copy.deepcopy(input_directions)
+    directions = []
     # vegetarian
     if code == '1':
         used = set()
@@ -17,6 +17,8 @@ def transform(code, input_ingredients, input_directions):
                 sub = random.choice(vegetarian.broth_subs)
                 while sub in used:
                     sub = random.choice(vegetarian.broth_subs)
+            if 'gravy' in i['name']:
+                sub = 'onion gravy'
             for key in vegetarian.meat.keys():
                 if key in i['name']:
                     if not sub:
@@ -72,7 +74,8 @@ def transform(code, input_ingredients, input_directions):
                     sub = healthy_transforms.to_healthy_protein[key]
             if sub:
                 tokens = i['name'].split(" ")
-                for d in directions:
+                for input_d in input_directions:
+                    d = copy.deepcopy(input_d)
                     mapped = []
                     for t in tokens:
                         if t in d['direction']:
@@ -85,6 +88,7 @@ def transform(code, input_ingredients, input_directions):
                             ingredient = ingredient.replace(word, sub)
                             ingredients.append(ingredient)
                         d['ingredients'] = ingredients
+                    directions.append(d)
                 i['name'] = sub
                 i['descriptor'] = ''
             sub = None
