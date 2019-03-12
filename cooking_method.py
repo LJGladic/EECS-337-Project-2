@@ -1,6 +1,7 @@
 import nltk
 
 cooking_terms = ["bake",
+                 "cook",
                  "sautee",
                  "grill",
                  "fry",
@@ -63,15 +64,10 @@ def get_methods(direction):
         if x in all_cooking_terms:
             if x not in methods:
                 methods.append(x)
-    print("METHODS")
-    print(methods)
-    print("END")
     return methods
 
 
 def parse_cook(directions_lst):
-    # print("COOKING")
-    # print(directions_lst)
     last_step_parse = directions_lst[-2:]
     last_step = last_step_parse[0]
     last_step = last_step.replace("\n", "")
@@ -88,8 +84,6 @@ def parse_cook(directions_lst):
         cook_bigrams.append(' '.join(x))
 
     combined_list = tokens + cook_bigrams
-    # print("COMBINED")
-    # print(combined_list)
     freq = {}
     max = 0
     max_key = ""
@@ -106,6 +100,4 @@ def parse_cook(directions_lst):
                 max = freq[x]
                 max_key = x
     method_mode = max_key
-    print("METHOD")
-    print(method_mode)
     return method_mode

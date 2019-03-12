@@ -9,8 +9,6 @@ from nltk.corpus import stopwords
 
 
 def parse_directions(directions_lst, ingredients, tools):
-    print(tools)
-    # print(ingredients)
     methods_list = []
     directions = ""
     for dir in directions_lst:
@@ -19,16 +17,13 @@ def parse_directions(directions_lst, ingredients, tools):
         directions += dir
 
     directions = directions.strip().split('.')
-    #print (repr(directions))
     steps = []
     i = 1
     pan_names = ["pan", "skillet"]
     for dir in directions:
         if dir != '':
             step = {}
-            # walnut issue
             steps_ingredients = find_ingredients(dir, ingredients)
-            # print(steps_ingredients)
             steps_tools = step_tools(dir)
             steps_methods = get_methods(dir)
             for x in steps_methods:
@@ -41,8 +36,6 @@ def parse_directions(directions_lst, ingredients, tools):
             step["methods"] = steps_methods
             step["ingredients"] = steps_ingredients
             steps.append(step)
-            print(step)
-            print("\r")
         i += 1
     return steps, methods_list
 
@@ -53,7 +46,6 @@ def find_ingredients(direction, ingredients):
     for i in ingredients:
         ingredient = i['name']
         tokens = ingredient.split()
-        #print (ingredient)
         stop_words = set(stopwords.words('english'))
         for t in tokens:
             if t in direction and t not in stop_words and ingredient not in ingredients_used:
@@ -77,9 +69,7 @@ def find_time(direction):
     #     i = i.replace(quantity, '')
     if "per side" in direction:
         double = True
-    # print(direction)
     tokens = direction.split(' ')
-    print(tokens)
     for t in tokens:
         if t.isdigit() or re.search("(-?(\d+)\s?((.\d+)?))+", t):
             if re.search("(-?(\d+)\s?((.\d+)?))+", t):
@@ -91,10 +81,8 @@ def find_time(direction):
                 if re.search("(-?(\d+)\s?((.\d+)?))+", next_word):
                     fraction = True
                     i += 1
-                    print(next_word)
                     t = t + " " + next_word
                     next_word = tokens[i + 1]
-                print(next_word)
                 if tokens[i + 1] in time_units:
                     if double:
                         if fraction:
