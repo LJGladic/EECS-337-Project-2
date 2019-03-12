@@ -2,6 +2,7 @@ from cooking_method import get_methods
 from tools import find_tools, step_tools
 from fractions import Fraction
 import re
+from nltk.corpus import stopwords
 # search for "for" then search for number and hour, minutes, seconds
 
 # 219763
@@ -50,9 +51,12 @@ def find_ingredients(direction, ingredients):
     ingredients_used = []
     for i in ingredients:
         ingredient = i['name']
+        tokens = ingredient.split()
         #print (ingredient)
-        if ingredient in direction and ingredient not in ingredients_used:
-            ingredients_used.append(ingredient)
+        stop_words = set(stopwords.words('english'))
+        for t in tokens:
+            if t in direction and t not in stop_words and ingredient not in ingredients_used:
+                ingredients_used.append(ingredient)
 
     return ingredients_used
 

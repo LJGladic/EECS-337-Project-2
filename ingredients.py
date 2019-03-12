@@ -101,9 +101,10 @@ for l in desc_lines:
 # print (descriptors_list)
 
 stop_words = [
-    'junk',
     "(optional)",
-    ", or to taste"
+    "or",
+    "to taste",
+    "for topping"
 ]
 
 
@@ -127,20 +128,46 @@ def parse_ingredients(ingredients):
         # adds parentheses to descriptors
         desc = re.findall("\(.*?\)", i)
         for d in desc:
-            if d != None:
+            if d is not None:
                 paranthesis.append(d)
                 i = i.replace(d, '')
 
         quantity = re.search("(-?(\d+)\s?((.\d+)?))+", i)
-        if quantity != None:
+        if quantity is not None:
             quantity = str(quantity.group().strip())
             i = i.replace(quantity, '')
             # print (quantity)
         # fixes comma problem
         i = i.replace(',', '')
-        tokens = [t.lower() for t in i.split() if i.lower().replace('\(', '') not in stop_words]
-        remove_tokens = []
+        tokens = [t.lower() for t in i.split() if i.lower().replace(
+            '\(', '').replace("-", ' ')]
+        bigrams = []
+        bigrams.extend(nltk.bigrams(tokens))
+        remove_bigrams = []
+        for b in bigrams:
+            b = ' '.join(b).strip()
+            print(b)
+            # finding measurement
+            if b in my_unit_list:
+                measurement = b
+                remove_bigrams.append(b)
+            elif b in descriptors_list:
+                descriptors.append(b)
+                remove_bigrams.append(b)
 
+            elif b in preparations_list:
+                preperations.append(b)
+                remove_bigrams.append(b)
+            elif b in stop_words:
+                remove_bigrams.append(b)
+
+        for r in remove_bigrams:
+            i = i.replace(r, '')
+
+        remove_tokens = []
+        # redo for singles
+        tokens = [t.lower() for t in i.split() if i.lower().replace(
+            '\(', '').replace("-", ' ')]
         for t in tokens:
             t = t.strip()
             # finding measurement
@@ -152,18 +179,21 @@ def parse_ingredients(ingredients):
                 remove_tokens.append(t)
 
             elif t in preparations_list:
-                preparation = t
+                preperations.append(t)
                 remove_tokens.append(t)
 
             elif t in stop_words:
-                print("here")
                 remove_tokens.append(t)
 
         for r in remove_tokens:
             if r in tokens:
                 tokens.remove(r)
 
-        name = " ".join(tokens).strip()
+        name = " ".join(tokens).replace('-', '')
+        name = name.strip()
+        if name[0:3] == 'and' or 'and' == name[-3:]:
+            name = name.replace("and", '').strip()
+        # print descriptors
 
         for p in paranthesis:
             descriptors.append(p)
@@ -174,6 +204,7 @@ def parse_ingredients(ingredients):
         ingredient['descriptor'] = " ".join(descriptors).strip()
         ingredient['preperations'] = " ".join(preperations).strip()
         ingredients_list.append(ingredient)
-        # print(ingredient)
+
+        print(ingredient)
 # ingredient['prep'] = ''
     return ingredients_list
