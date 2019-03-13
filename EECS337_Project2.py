@@ -60,7 +60,6 @@ try:
 except:
     total_time = "N/A"
 
-
 ingredients = soup.find_all("span", class_="recipe-ingred_txt added")
 ingredients_lst = []
 for i in ingredients:
@@ -70,7 +69,6 @@ directions = soup.find_all("span", class_="recipe-directions__list--item")
 directions_lst = []
 for d in directions:
     directions_lst.append(d.text)
-    # print (d.text)
 # div summary background  for title and short description
 
 parsed_ingredients = parse_ingredients(ingredients_lst)
@@ -91,13 +89,10 @@ def print_parsed_ingredients(parsed_ingredients):
 
 
 all_tools = find_tools(directions_lst, ingredients_lst)
-# print(all_tools)
-
 
 # finding tools for each step
 num = 1
 for dir in directions_lst:
-    print(num)
     str = step_tools(dir)
     num += 1
 
@@ -111,7 +106,6 @@ parsed_directions, all_methods = parse_directions(directions_lst, parsed_ingredi
 # Actual printing for directions starts here:
 print("Dish: " + recipe_tital)
 print("Total time: " + total_time)
-print("All ingredients: ")
 print_parsed_ingredients(parsed_ingredients)
 # for x in ingredients_lst:
 #     print(x)
@@ -131,28 +125,6 @@ print("Step by step directions:")
 print_parsed(parsed_directions)
 # end of print
 
-
-#stepbystep = []
-#print("DIRECTIONS LIST:")
-# print(directions_lst)
-#print("STEP BY STEP")
-# for dir in directions_lst:
-#    dir = dir.replace("\n", " ")
-#    tokens = dir.split('. ')
-#    stepbystep.extend(tokens)
-# print(stepbystep)
-
-
-#keyingredients = []
-# for dir in stepbystep:
-#    for i in parsed_ingredients:
-#        token = i.split(" ")
-#        temp = []
-#        for t in token:
-#            if t in dir:
-#                temp.append(t)
-#        keyingredients.extend(temp)
-# print(keyingredients)
 
 # dictionary of ingredient names as key, value = [quantity, measurement, descriptor, prep]
 # ingredients_dict = {}

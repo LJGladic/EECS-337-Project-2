@@ -98,7 +98,6 @@ desc_lines = desc_file.readlines()
 # desc_lines = set(desc_lines)
 for l in desc_lines:
     descriptors_list.append(str(l).strip())
-# print (descriptors_list)
 
 stop_words = [
     "(optional)",
@@ -106,9 +105,6 @@ stop_words = [
     "to taste",
     "for topping"
 ]
-
-
-# print(stop_words)
 
 
 # potentially remove anything after or
@@ -136,7 +132,6 @@ def parse_ingredients(ingredients):
         if quantity is not None:
             quantity = str(quantity.group().strip())
             i = i.replace(quantity, '')
-            # print (quantity)
         # fixes comma problem
         i = i.replace(',', '')
         tokens = [t.lower() for t in i.split() if i.lower().replace(
@@ -146,7 +141,6 @@ def parse_ingredients(ingredients):
         remove_bigrams = []
         for b in bigrams:
             b = ' '.join(b).strip()
-            # print(b)
             # finding measurement
             if b in my_unit_list:
                 measurement = b
@@ -193,7 +187,6 @@ def parse_ingredients(ingredients):
         name = name.strip()
         if name[0:3] == 'and' or 'and' == name[-3:]:
             name = name.replace("and", '').strip()
-        # print descriptors
 
         for p in paranthesis:
             descriptors.append(p)
@@ -204,7 +197,5 @@ def parse_ingredients(ingredients):
         ingredient['descriptor'] = ", ".join(descriptors).strip()
         ingredient['preperations'] = ", ".join(preperations).strip()
         ingredients_list.append(ingredient)
-
-        # print(ingredient)
 # ingredient['prep'] = ''
     return ingredients_list

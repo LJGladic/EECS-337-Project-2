@@ -145,8 +145,6 @@ def find_tools(directions_lst, ingredients_lst):
     for ing in ingredients_lst:
         tokens = ing.split(' ')
         ingredients.append(tokens)
-    #print("LOOK HERE")
-    # print(ingredients)
 
     curr_tools = []
     # direction parsing
@@ -181,12 +179,8 @@ def find_tools(directions_lst, ingredients_lst):
 
     joined_grams = []
     for gram in bitris:
-        # print("Gram")
-        # print(gram)
         new_word = ' '.join(gram)
         joined_grams.append(new_word)
-    #print("Now JOINED")
-    # print(joined_grams)
 
     for gram in joined_grams:
         if gram in tools and gram not in curr_tools:
@@ -227,6 +221,4 @@ def step_tools(direction):
         if gram in tools and gram not in curr_tools:
             curr_tools.append(gram)
 
-    #print("tools for this step:")
-    # print(curr_tools)
     return curr_tools
