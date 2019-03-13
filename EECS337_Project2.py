@@ -61,8 +61,6 @@ except:
     total_time = "N/A"
 
 
-
-
 ingredients = soup.find_all("span", class_="recipe-ingred_txt added")
 ingredients_lst = []
 for i in ingredients:
@@ -76,11 +74,20 @@ for d in directions:
 # div summary background  for title and short description
 
 parsed_ingredients = parse_ingredients(ingredients_lst)
-#print("INGREDIENTS")
-#print(ingredients_lst)
 
 
-# weird terms,  "to taste", "pinch"
+def print_parsed_ingredients(parsed_ingredients):
+    print ("INGREDIENTS: \n\n")
+    for i in parsed_ingredients:
+        print("Name: " + i["name"])
+        print("Quantity: " + i["quantity"])
+        print("Measurement: " + i["measurement"])
+        if len(i["descriptor"]) != 0:
+            print("Descriptors: " + i["descriptor"])
+        if len(i["preperations"]) != 0:
+            print("Preparations: " + i["preperations"])
+        print("\n")
+        # weird terms,  "to taste", "pinch"
 
 
 all_tools = find_tools(directions_lst, ingredients_lst)
@@ -105,8 +112,9 @@ parsed_directions, all_methods = parse_directions(directions_lst, parsed_ingredi
 print("Dish: " + recipe_tital)
 print("Total time: " + total_time)
 print("All ingredients: ")
-for x in ingredients_lst:
-    print(x)
+print_parsed_ingredients(parsed_ingredients)
+# for x in ingredients_lst:
+#     print(x)
 print(" ")
 print("Necessary tools: ")
 for x in all_tools:
@@ -121,7 +129,7 @@ for m in all_methods:
 print(" ")
 print("Step by step directions:")
 print_parsed(parsed_directions)
-#end of print
+# end of print
 
 
 #stepbystep = []
@@ -172,10 +180,8 @@ while True:
         print("Recipe transformation to: " + recipe)
         print("")
 
-        t_ingredient, t_direction = transform(code, parsed_ingredients, parsed_directions)
-        print("New Ingredients:")
-        for x in t_ingredient:
-            print(x)
+        parsed_ingredients, t_direction = transform(code, parsed_ingredients, parsed_directions)
+        print_parsed_ingredients(parsed_ingredients)
         print("")
         print("New step-by-step directions:")
         print_parsed(t_direction)

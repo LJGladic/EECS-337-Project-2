@@ -201,8 +201,8 @@ def parse_ingredients(ingredients):
         ingredient['name'] = name
         ingredient['quantity'] = quantity
         ingredient['measurement'] = measurement
-        ingredient['descriptor'] = " ".join(descriptors).strip()
-        ingredient['preperations'] = " ".join(preperations).strip()
+        ingredient['descriptor'] = ", ".join(descriptors).strip()
+        ingredient['preperations'] = ", ".join(preperations).strip()
         ingredients_list.append(ingredient)
 
         # print(ingredient)

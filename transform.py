@@ -5,6 +5,7 @@ import healthy_transforms
 import italian
 import copy
 
+
 def transform(code, input_ingredients, input_directions):
     parsed_ingredients = copy.deepcopy(input_ingredients)
     directions = copy.deepcopy(input_directions)
@@ -138,7 +139,7 @@ def transform(code, input_ingredients, input_directions):
                 i['name'] = sub
                 i['descriptor'] = ''
             sub = None
-            
+
     # Indian
     elif code == '4':
         for i in parsed_ingredients:
@@ -162,7 +163,7 @@ def transform(code, input_ingredients, input_directions):
                     i['name'] = sub
                     i['descriptor'] = ''
         step = {}
-        step["step_num"] = str(len(directions)+1)
+        step["step_num"] = str(len(directions) + 1)
         step["direction"] = indian.directions
         step["time"] = 'None'
         step["tools"] = []
@@ -203,10 +204,9 @@ def transform(code, input_ingredients, input_directions):
                 i['descriptor'] = ''
             sub = None
 
-
     list_ingredients = []
     for dict in parsed_ingredients:
         if dict['name'] not in list_ingredients:
             list_ingredients.append(dict['name'])
 
-    return list_ingredients, directions
+    return parsed_ingredients, directions
